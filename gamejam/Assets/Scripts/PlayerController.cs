@@ -15,8 +15,10 @@ public class PlayerController : MonoBehaviour {
 
     public bool grounded;
     public LayerMask whatIsGround;
+    public Transform groundCheck;
+    public float groundCheckRadius;
 
-    private Collider2D playerCollider;
+    //private Collider2D playerCollider;
 
     private Animator playerAnimator;
 
@@ -25,11 +27,15 @@ public class PlayerController : MonoBehaviour {
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
         playerAnimator = GetComponent<Animator>();
+
+        speedMilestoneCount = speedIncriseMilestone;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        grounded = Physics2D.IsTouchingLayers(playerCollider, whatIsGround);
+        // grounded = Physics2D.IsTouchingLayers(playerCollider, whatIsGround);
+
+        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         if (transform.position.x > speedMilestoneCount)
         {
