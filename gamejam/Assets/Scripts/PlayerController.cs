@@ -4,6 +4,11 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
     public float moveSpeed;
+    public float speedMultiplier;
+
+    public float speedIncriseMilestone;
+    private float speedMilestoneCount;
+
     public float jumpForce;
 
     private Rigidbody2D playerRigidbody;
@@ -25,6 +30,14 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         grounded = Physics2D.IsTouchingLayers(playerCollider, whatIsGround);
+
+        if (transform.position.x > speedMilestoneCount)
+        {
+            speedMilestoneCount += speedIncriseMilestone;
+
+            speedIncriseMilestone = speedIncriseMilestone * speedMultiplier;
+            moveSpeed = moveSpeed * speedMultiplier;
+        }
 
         playerRigidbody.velocity = new Vector2(moveSpeed, playerRigidbody.velocity.y);
 
