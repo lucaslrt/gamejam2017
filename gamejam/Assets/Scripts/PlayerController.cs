@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
     public float moveSpeed;
     public float speedMultiplier;
 
+    public float speedIncreaseMilestoneStore;
     public float speedIncriseMilestone;
     private float speedMilestoneCount;
 
@@ -18,17 +19,33 @@ public class PlayerController : MonoBehaviour {
     public Transform groundCheck;
     public float groundCheckRadius;
 
-    //private Collider2D playerCollider;
+    private float moveSpeedStore;
+    private float speedMilestoneCountStore;
+
+    private bool attack;
+    private float attackTimer = 0;
+    private float attackCd = 0.3f;
+
+    public GameManager gameManager;
+
+    private Collider2D playerCollider;
+    public Collider2D attackTrigger;
 
     private Animator playerAnimator;
 
 	// Use this for initialization
 	void Start () {
         playerRigidbody = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<Collider2D>();
+       // playerCollider = GetComponent<Collider2D>();
         playerAnimator = GetComponent<Animator>();
+        attackTrigger.enabled = false;
 
         speedMilestoneCount = speedIncriseMilestone;
+
+        moveSpeedStore = moveSpeed;
+
+        speedMilestoneCountStore = speedMilestoneCount;
+        speedIncreaseMilestoneStore = speedIncriseMilestone;
     }
 	
 	// Update is called once per frame
@@ -47,15 +64,58 @@ public class PlayerController : MonoBehaviour {
 
         playerRigidbody.velocity = new Vector2(moveSpeed, playerRigidbody.velocity.y);
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
+        HandleInput();
+    }
+
+    void FixedUpdate()
+    {
+        HandleAttacks();
+    //    ResetValues();
+    }
+
+    private void HandleAttacks()
+    {
+        if (attack)
         {
-            if(grounded)
+            if(attackTimer > 0)
             {
-                playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, jumpForce);
+                attackTimer -= Time.deltaTime;
+            }
+            else
+            {
+                attack = false;
+                attackTrigger.enabled = false;
             }
         }
+        playerAnimator.SetBool("attack", attack);
+    }
 
-        playerAnimator.SetFloat("Speed", playerRigidbody.velocity.x);
-        playerAnimator.SetBool("Grounded", grounded);
+    //private void ResetValues()
+    //{
+    //    attack = false;
+    //}
+
+    private void HandleInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            attack = true;
+            attackTimer = attackCd;
+
+            attackTrigger.enabled = true;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        //Debug.Log("Collided");
+        if (other.gameObject.tag == "killbox")
+        {
+            gameManager.RestartGame();
+            moveSpeed = moveSpeedStore;
+            speedMilestoneCount = speedMilestoneCountStore;
+            speedIncriseMilestone = speedIncreaseMilestoneStore;
+        }
+       
     }
 }
