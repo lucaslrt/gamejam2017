@@ -10,9 +10,11 @@ public class GameManager : MonoBehaviour {
     private Vector3 playerStartPoint;
 
     private PlatformDestroyer[] platformList;
+    private RockDestroyer[] rockList;
+    private TrunkDestroyer[] trunkList;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         platformStartPoint = platformGenerator.position;
         playerStartPoint = player.transform.position;
 	
@@ -33,14 +35,27 @@ public class GameManager : MonoBehaviour {
         player.gameObject.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         platformList = FindObjectsOfType<PlatformDestroyer>();
+        rockList = FindObjectsOfType<RockDestroyer>();
+        trunkList = FindObjectsOfType<TrunkDestroyer>();
 
-        for(int i = 0; i < platformList.Length; i++)
+        for (int i = 0; i < platformList.Length; i++)
         {
             platformList[i].gameObject.SetActive(false);
         }
 
+        for (int i = 0; i < rockList.Length; i++)
+        {
+            rockList[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < trunkList.Length; i++)
+        {
+            trunkList[i].gameObject.SetActive(false);
+        }
+
         player.transform.position = playerStartPoint;
         platformGenerator.position = platformStartPoint;
+
         player.gameObject.SetActive(true);
     }
 

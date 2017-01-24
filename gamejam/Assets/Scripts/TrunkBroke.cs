@@ -8,7 +8,6 @@ public class TrunkBroke : MonoBehaviour
     private SpriteRenderer spriteRender;
     [SerializeField]
     private Sprite trunkSprite;
-
     private bool hasCollided = false;
 
     void OnTriggerEnter2D(Collider2D other)
@@ -16,6 +15,7 @@ public class TrunkBroke : MonoBehaviour
         if (other.gameObject.tag == "attack" && !hasCollided)
         {
             hasCollided = true;
+            this.gameObject.tag = "broken";
             spriteRender.sprite = trunkSprite;
         }
     }

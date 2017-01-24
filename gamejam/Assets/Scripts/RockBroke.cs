@@ -8,14 +8,14 @@ public class RockBroke : MonoBehaviour
     private SpriteRenderer spriteRender;
     [SerializeField]
     private Sprite rockSprite;
-
     private bool hasCollided = false;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "attack" && !hasCollided)
+        if (other.gameObject.tag == "attack")
         {
             hasCollided = true;
+            this.gameObject.tag = "broken";
             spriteRender.sprite = rockSprite;
         }
     }

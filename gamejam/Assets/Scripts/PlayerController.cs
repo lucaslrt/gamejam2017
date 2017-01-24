@@ -116,6 +116,16 @@ public class PlayerController : MonoBehaviour {
             speedMilestoneCount = speedMilestoneCountStore;
             speedIncriseMilestone = speedIncreaseMilestoneStore;
         }
-       
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "killbox")
+        {
+            gameManager.RestartGame();
+            moveSpeed = moveSpeedStore;
+            speedMilestoneCount = speedMilestoneCountStore;
+            speedIncriseMilestone = speedIncreaseMilestoneStore;
+        }
     }
 }
