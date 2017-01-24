@@ -6,6 +6,12 @@ public class GameManager : MonoBehaviour {
     public Transform platformGenerator;
     private Vector3 platformStartPoint;
 
+    public Transform rockGenerator;
+    private Vector3 rockStartPoint;
+
+    public Transform trunkGenerator;
+    private Vector3 trunkStartPoint;
+
     public PlayerController player;
     private Vector3 playerStartPoint;
 
@@ -16,8 +22,9 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         platformStartPoint = platformGenerator.position;
+        rockStartPoint = rockGenerator.position;
+        trunkStartPoint = trunkGenerator.position;
         playerStartPoint = player.transform.position;
-	
 	}
 	
 	// Update is called once per frame
@@ -55,6 +62,8 @@ public class GameManager : MonoBehaviour {
 
         player.transform.position = playerStartPoint;
         platformGenerator.position = platformStartPoint;
+        rockGenerator.position = rockStartPoint;
+        trunkGenerator.position = trunkStartPoint;
 
         player.gameObject.SetActive(true);
     }

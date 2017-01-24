@@ -12,10 +12,12 @@ public class RockBroke : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "attack")
+        if (other.gameObject.tag == "attack" && !hasCollided)
         {
             hasCollided = true;
-            this.gameObject.tag = "broken";
+            //Debug.Log("Tag before: " + gameObject.tag);
+            gameObject.tag = "broken";
+            //Debug.Log("Tag after: " + gameObject.tag);
             spriteRender.sprite = rockSprite;
         }
     }

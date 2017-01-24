@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 
     private bool attack;
     private float attackTimer = 0;
-    private float attackCd = 0.3f;
+    private float attackCd = 0.2f;
 
     public GameManager gameManager;
 
@@ -80,11 +80,13 @@ public class PlayerController : MonoBehaviour {
             if(attackTimer > 0)
             {
                 attackTimer -= Time.deltaTime;
+                gameObject.tag = "attack";
             }
             else
             {
                 attack = false;
                 attackTrigger.enabled = false;
+                gameObject.tag = "player";
             }
         }
         playerAnimator.SetBool("attack", attack);
@@ -120,7 +122,7 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "killbox")
+        if (col.gameObject.tag == "killbox" && gameObject.tag != "attack")
         {
             gameManager.RestartGame();
             moveSpeed = moveSpeedStore;

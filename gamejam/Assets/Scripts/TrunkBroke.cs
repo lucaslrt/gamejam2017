@@ -15,7 +15,9 @@ public class TrunkBroke : MonoBehaviour
         if (other.gameObject.tag == "attack" && !hasCollided)
         {
             hasCollided = true;
-            this.gameObject.tag = "broken";
+            Debug.Log("Tag before: " + gameObject.tag);
+            gameObject.tag = "broken";
+            Debug.Log("Tag after: " + gameObject.tag);
             spriteRender.sprite = trunkSprite;
         }
     }
